@@ -1,10 +1,8 @@
 ﻿  Matrices49860489.cpp
-c:\users\b409-15\downloads\matrices49860489 (1)\matrices49860489.cpp(244): warning C4100: 'lpCmdLine': 참조되지 않은 정식 매개 변수입니다.
-c:\users\b409-15\downloads\matrices49860489 (1)\matrices49860489.cpp(243): warning C4100: 'hPrevInstance': 참조되지 않은 정식 매개 변수입니다.
-c:\users\b409-15\downloads\matrices49860489 (1)\matrices49860489.cpp(433): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\b409-15\downloads\matrices49860489 (1)\matrices49860489.cpp(465): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\b409-15\downloads\matrices49860489 (1)\matrices49860489.cpp(497): warning C4456: 'i' 선언은 이전 로컬 선언을 숨깁니다.
-  c:\users\b409-15\downloads\matrices49860489 (1)\matrices49860489.cpp(486): note: 'i' 선언을 참조하십시오.
-c:\users\b409-15\downloads\matrices49860489 (1)\matrices49860489.cpp(501): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Matrices49860489_2010.vcxproj -> C:\Users\B409-15\Downloads\Matrices49860489 (1)\Debug\Matrices49860489.exe
-  Matrices49860489_2010.vcxproj -> C:\Users\B409-15\Downloads\Matrices49860489 (1)\Debug\Matrices49860489.pdb (Full PDB)
+c:\users\kiminhoe\desktop\shooting\matrices49860489.cpp(245): warning C4100: 'lpCmdLine': 참조되지 않은 정식 매개 변수입니다.
+c:\users\kiminhoe\desktop\shooting\matrices49860489.cpp(244): warning C4100: 'hPrevInstance': 참조되지 않은 정식 매개 변수입니다.
+c:\users\kiminhoe\desktop\shooting\matrices49860489.cpp(434): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kiminhoe\desktop\shooting\matrices49860489.cpp(466): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\kiminhoe\desktop\shooting\matrices49860489.cpp(501): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Matrices49860489_2010.vcxproj -> C:\Users\Kiminhoe\Desktop\Shooting\Debug\Matrices49860489.exe
+  Matrices49860489_2010.vcxproj -> C:\Users\Kiminhoe\Desktop\Shooting\Debug\Matrices49860489.pdb (Full PDB)
