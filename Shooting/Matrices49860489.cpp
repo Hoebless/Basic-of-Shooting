@@ -6,12 +6,12 @@
 #include <iostream>
 
 // define the screen resolution and keyboard macros
-#define SCREEN_WIDTH  640
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH  720
+#define SCREEN_HEIGHT 540
 #define KEY_DOWN(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 1 : 0)
 #define KEY_UP(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 0 : 1)
 
-#define ENEMY_NUM 10
+#define ENEMY_NUM 20
 #define MAX 20
 
 
@@ -85,6 +85,7 @@ public:
 	void super_fire();
 	void move(int i);
 	void init(float x, float y);
+	void helth(int h);
 
 
 };
@@ -102,25 +103,30 @@ void Hero::move(int i)
 	switch (i)
 	{
 	case MOVE_UP:
-		y_pos -= 3;
+		y_pos -= 10;
 		break;
 
 	case MOVE_DOWN:
-		y_pos += 3;
+		y_pos += 10;
 		break;
 
 
 	case MOVE_LEFT:
-		x_pos -= 3;
+		x_pos -= 10;
 		break;
 
 
 	case MOVE_RIGHT:
-		x_pos += 3;
+		x_pos += 10;
 		break;
 
 	}
 
+}
+
+void Hero::helth(int h)
+{
+	h = --HP;
 }
 
 
@@ -334,7 +340,7 @@ void initD3D(HWND hWnd)
 	D3DPRESENT_PARAMETERS d3dpp;
 
 	ZeroMemory(&d3dpp, sizeof(d3dpp));
-	d3dpp.Windowed = FALSE;
+	d3dpp.Windowed = TRUE;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	d3dpp.hDeviceWindow = hWnd;
 	d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
@@ -431,7 +437,7 @@ void init_game(void)
 	for (int i = 0; i<ENEMY_NUM; i++)
 	{
 
-		enemy[i].init((float)(rand() % 300), rand() % 200 - 300);
+		enemy[i].init((float)(rand() % 500), rand() % 400 - 500);
 	}
 
 	//ÃÑ¾Ë ÃÊ±âÈ­
@@ -463,7 +469,7 @@ void do_game_logic(void)
 	for (int i = 0; i < ENEMY_NUM; i++)
 	{
 		if (enemy[i].y_pos > 500)
-			enemy[i].init((float)(rand() % 300), rand() % 200 - 300);
+			enemy[i].init((float)(rand() % 500), rand() % 400 - 500);
 		else
 			enemy[i].move();
 	}
@@ -498,7 +504,7 @@ void do_game_logic(void)
 		{
 			if (bullet[i].check_collision(enemy[j].x_pos, enemy[j].y_pos) == true)
 			{
-				enemy[j].init((float)(rand() % 300), rand() % 200 - 300);
+				enemy[j].init((float)(rand() % 500), rand() % 400 - 500);
 
 			}
 		}
