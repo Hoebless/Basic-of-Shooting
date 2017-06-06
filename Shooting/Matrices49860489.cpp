@@ -83,13 +83,19 @@ class Hero :public entity {
 
 public:
 	bool hShow;
+	bool hitShow;
 	
 	void fire();
 	void super_fire();
 	void move(int i);
 	bool show();
+	bool hit_show();
 	void init(float x, float y);
-	void helth(int h);
+	void health(int h);
+	void hide();
+	void hithide();
+	void active();
+	void hitactive();
 	bool check_collision(float x, float y);
 
 };
@@ -149,13 +155,35 @@ bool Hero::show()
 	return hShow;
 }
 
-void Hero::helth(int h)
+bool Hero::hit_show()
+{
+	return hitShow;
+}
+
+void Hero::health(int h)
 {
 	h = --HP;
 }
 
+void Hero::hide()
+{
+	hShow = false;
+}
 
+void Hero::hithide()
+{
+	hitShow = false;
+}
 
+void Hero::active()
+{
+	hShow = true;
+}
+
+void Hero::hitactive()
+{
+	hitShow = true;
+}
 
 // 적 클래스 
 class Enemy :public entity {
@@ -431,7 +459,7 @@ void initD3D(HWND hWnd)
 
 
 	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
-		L"bullet.png",    // the file name
+		L"Attack.png",    // the file name
 		D3DX_DEFAULT,    // default width
 		D3DX_DEFAULT,    // default height
 		D3DX_DEFAULT,    // no mip mapping
@@ -447,7 +475,7 @@ void initD3D(HWND hWnd)
 
 
 	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
-		L"enemy.png",    // the file name
+		L"Alicia_hit.png",    // the file name
 		D3DX_DEFAULT,    // default width
 		D3DX_DEFAULT,    // default height
 		D3DX_DEFAULT,    // no mip mapping
@@ -545,23 +573,21 @@ void do_game_logic(void)
 		{
 			if (bullet[i].check_collision(enemy[j].x_pos, enemy[j].y_pos) == true)
 			{
-				enemy[j].init((float)(rand() % 500), rand() % 500 - 600);
+				enemy[j].init((float)(rand() % 500), rand() % 300 - 600);
 
 			}
 		}
 	}
 
-	if (hero.show() == false)
+	for (int i = 0; i<ENEMY_NUM; i++)
 	{
-		for (int j = 0; j < ENEMY_NUM; j++)
-		{
-			if (hero.check_collision(hero.x_pos, hero.y_pos) == true)
-			{
-				
-			}
+		if (hero.check_collision(enemy[i].x_pos, enemy[i].y_pos) == true)
+		{			
+			hero.hitShow = true;
 		}
-			
 	}
+
+	
 
 
 }
@@ -630,7 +656,7 @@ void render_frame(void)
 
 	
 
-	if (hero.hShow == true)
+	if (hero.hitShow == true)
 	{
 		RECT part3;
 		SetRect(&part3, 0, 0, 64, 64);
