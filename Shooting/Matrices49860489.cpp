@@ -583,7 +583,7 @@ void do_game_logic(void)
 	{
 		if (hero.check_collision(enemy[i].x_pos, enemy[i].y_pos) == true)
 		{			
-			hero.hitShow = true;
+			hero.hide();			
 		}
 	}
 
