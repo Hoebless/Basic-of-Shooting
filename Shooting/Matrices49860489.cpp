@@ -13,6 +13,7 @@
 
 #define ENEMY_NUM 20
 #define MAX 10
+#define BMAX 100
 
 
 // include the Direct3D Library file
@@ -31,7 +32,9 @@ LPDIRECT3DTEXTURE9 sprite;    // the pointer to the sprite
 LPDIRECT3DTEXTURE9 sprite_hero;    // the pointer to the sprite
 LPDIRECT3DTEXTURE9 sprite_enemy;    // the pointer to the sprite
 LPDIRECT3DTEXTURE9 sprite_bullet;
-LPDIRECT3DTEXTURE9 sprite_hero_hit;// the pointer to the sprite
+LPDIRECT3DTEXTURE9 sprite_hero_hit;
+LPDIRECT3DTEXTURE9 sprite_boss;
+LPDIRECT3DTEXTURE9 sprite_bossbullet;// the pointer to the sprite
 
 
 
@@ -185,6 +188,27 @@ void Hero::hitactive()
 	hitShow = true;
 }
 
+// 적 보스 클래스
+class EnemyBoss :public entity {
+
+public:
+	void fire();
+	void init(float x, float y);
+	void move();
+
+};
+
+void EnemyBoss::init(float x, float y)
+{
+	x_pos = x;
+	y_pos = y;
+}
+
+void EnemyBoss::move()
+{
+
+}
+
 // 적 클래스 
 class Enemy :public entity {
 
@@ -210,9 +234,68 @@ void Enemy::move()
 
 }
 
+// 보스 총알 클래스
+class BossBullet :public entity {
+
+public:
+	bool boss_bShow;
+
+	void init(float x, float y);
+	void move();
+	bool show();
+	void hide();
+	void active();
+	bool check_collision(float x, float y);
+};
+
+bool BossBullet::check_collision(float x, float y)
+{
+
+	//충돌 처리 시 
+	if (sphere_collision_check(x_pos, y_pos, 32, x, y, 32) == true)
+	{
+		boss_bShow = false;
+		return true;
+
+	}
+	else {
+
+		return false;
+	}
+}
+
+
+void BossBullet::init(float x, float y)
+{
+	x_pos = x;
+	y_pos = y;
+
+}
+
+bool BossBullet::show()
+{
+	return boss_bShow;
+
+}
+
+
+void BossBullet::active()
+{
+	boss_bShow = true;
+
+}
 
 
 
+void BossBullet::move()
+{
+	y_pos += 8;
+}
+
+void BossBullet::hide()
+{
+	boss_bShow = false;
+}
 
 
 // 총알 클래스 
@@ -295,6 +378,8 @@ void Bullet::hide()
 Hero hero;
 Enemy enemy[ENEMY_NUM];
 Bullet bullet[MAX];
+BossBullet Bbullet[BMAX];
+EnemyBoss boss;
 
 
 
@@ -489,6 +574,37 @@ void initD3D(HWND hWnd)
 		NULL,    // not using 256 colors
 		&sprite_hero_hit);    // load to sprite
 
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"Boss.png",    // the file name
+		D3DX_DEFAULT,    // default width
+		D3DX_DEFAULT,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&sprite_boss);    // load to sprite
+
+
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"BossBullet.png",    // the file name
+		D3DX_DEFAULT,    // default width
+		D3DX_DEFAULT,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&sprite_bossbullet);
+
 
 
 
@@ -501,12 +617,18 @@ void init_game(void)
 {
 	//객체 초기화 
 	hero.init(150, 300);
+	//적 보스 생성
+	boss.init(150, 300);
 
 	//적들 초기화 
-	for (int j = 0; j<ENEMY_NUM; j++)
+	for (int j = 0; j < ENEMY_NUM; j++)
 	{
+		enemy[j].init((float)(rand() % 500), rand() % 500 - 600);
+	}
 
-		enemy[j].init((float)(rand() % 500), rand() % 500 - 600 );
+	for (int j = 0; j < BMAX; j++)
+	{
+		Bbullet[j].init(boss.x_pos, boss.y_pos);
 	}
 
 	//총알 초기화
@@ -541,6 +663,27 @@ void do_game_logic(void)
 			enemy[j].init((float)(rand() % 500), rand() % 500 - 600);
 		else
 			enemy[j].move();
+	}
+
+	//보스 총알
+	for (int i = 0; i < BMAX; i++)
+	{
+		if (Bbullet[i].show() == false)
+		{
+			Bbullet[i].active();
+			Bbullet[i].init(boss.x_pos, boss.y_pos);
+		}
+	}
+
+	for (int i = 0; i < BMAX; i++)
+	{
+		if (Bbullet[i].show() == true)
+		{
+			if (Bbullet[i].y_pos > 70)
+				Bbullet[i].hide();
+			else
+				Bbullet[i].move();
+		}
 	}
 
 
@@ -579,13 +722,13 @@ void do_game_logic(void)
 		}
 	}
 
-	for (int i = 0; i<ENEMY_NUM; i++)
+	/*for (int i = 0; i<ENEMY_NUM; i++)
 	{
 		if (hero.check_collision(enemy[i].x_pos, enemy[i].y_pos) == true)
 		{			
 			hero.hide();			
 		}
-	}
+	}*/
 
 	
 
@@ -663,6 +806,24 @@ void render_frame(void)
 		D3DXVECTOR3 center3(0.0f, 0.0f, 0.0f);    // center at the upper-left corner
 		D3DXVECTOR3 position3(hero.x_pos, hero.y_pos, 0.0f);    // position at 50, 50 with no depth
 		d3dspt->Draw(sprite_hero_hit, &part3, &center3, &position3, D3DCOLOR_ARGB(255, 255, 255, 255));
+	}
+
+	RECT part4;
+	SetRect(&part, 0, 0, 64, 64);
+	D3DXVECTOR3 center4(0.0f, 0.0f, 0.0f);    // center at the upper-left corner
+	D3DXVECTOR3 position4(boss.x_pos, boss.y_pos, 0.0f);    // position at 50, 50 with no depth
+	d3dspt->Draw(sprite_boss, &part4, &center4, &position4, D3DCOLOR_ARGB(255, 255, 255, 255));
+
+	RECT part5;
+	SetRect(&part, 0, 0, 64, 64);
+	D3DXVECTOR3 center5(0.0f, 0.0f, 0.0f);	// center at the upper-left corner
+	for (int i = 0; i < BMAX; i++)
+	{
+		if (Bbullet[i].boss_bShow == true)
+		{
+			D3DXVECTOR3 position5(Bbullet[i].x_pos, Bbullet[i].y_pos, 0.0f);    // position at 50, 50 with no depth
+			d3dspt->Draw(sprite_bossbullet, &part5, &center5, &position5, D3DCOLOR_ARGB(255, 255, 255, 255));
+		}
 	}
 
 	d3dspt->End();    // end sprite drawing
