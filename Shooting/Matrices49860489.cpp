@@ -12,8 +12,9 @@
 #define KEY_UP(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 0 : 1)
 
 #define ENEMY_NUM 20
-#define MAX 10
-#define BMAX 100
+#define MAX 250
+#define BMAX 150
+#define MOVEMAX 200
 
 
 // include the Direct3D Library file
@@ -191,8 +192,7 @@ void Hero::hitactive()
 // 적 보스 클래스
 class EnemyBoss :public entity {
 
-public:
-	void fire();
+public:	
 	void init(float x, float y);
 	void move();
 
@@ -206,7 +206,17 @@ void EnemyBoss::init(float x, float y)
 
 void EnemyBoss::move()
 {
-
+	for (int i = 0; i < MOVEMAX; i++)
+	{
+		if (i > 200)
+		{
+			x_pos += 2;
+		}
+		else if (i < -200)
+		{
+			x_pos -= 2;
+		}
+	}
 }
 
 // 적 클래스 
@@ -238,10 +248,11 @@ void Enemy::move()
 class BossBullet :public entity {
 
 public:
-	bool boss_bShow;
+	bool BbShow;
+
 
 	void init(float x, float y);
-	void move();
+	void move(float xAngle);
 	bool show();
 	void hide();
 	void active();
@@ -254,7 +265,7 @@ bool BossBullet::check_collision(float x, float y)
 	//충돌 처리 시 
 	if (sphere_collision_check(x_pos, y_pos, 32, x, y, 32) == true)
 	{
-		boss_bShow = false;
+		BbShow = false;
 		return true;
 
 	}
@@ -274,27 +285,28 @@ void BossBullet::init(float x, float y)
 
 bool BossBullet::show()
 {
-	return boss_bShow;
+	return BbShow;
 
 }
 
 
 void BossBullet::active()
 {
-	boss_bShow = true;
+	BbShow = true;
 
 }
 
 
 
-void BossBullet::move()
+void BossBullet::move(float xAngle)
 {
 	y_pos += 8;
+	x_pos += xAngle;
 }
 
 void BossBullet::hide()
 {
-	boss_bShow = false;
+	BbShow = false;
 }
 
 
@@ -616,9 +628,9 @@ void initD3D(HWND hWnd)
 void init_game(void)
 {
 	//객체 초기화 
-	hero.init(150, 300);
+	hero.init(300, 700);
 	//적 보스 생성
-	boss.init(150, 300);
+	boss.init(300, 200);
 
 	//적들 초기화 
 	for (int j = 0; j < ENEMY_NUM; j++)
@@ -626,6 +638,7 @@ void init_game(void)
 		enemy[j].init((float)(rand() % 500), rand() % 500 - 600);
 	}
 
+	//보스 총알 초기화
 	for (int j = 0; j < BMAX; j++)
 	{
 		Bbullet[j].init(boss.x_pos, boss.y_pos);
@@ -638,10 +651,11 @@ void init_game(void)
 	}
 }
 
+float xAngle = 0.0f;
+bool xCheck = true;
 
 void do_game_logic(void)
 {
-
 	//주인공 처리 
 	if (KEY_DOWN(VK_UP))
 		hero.move(MOVE_UP);
@@ -655,6 +669,8 @@ void do_game_logic(void)
 	if (KEY_DOWN(VK_RIGHT))
 		hero.move(MOVE_RIGHT);
 
+	boss.move();
+
 
 	//적들 처리 
 	for (int j = 0; j < ENEMY_NUM; j++)
@@ -665,13 +681,36 @@ void do_game_logic(void)
 			enemy[j].move();
 	}
 
-	//보스 총알
+	
+	//보스 총알	
+	//40에서 -40까지 줄어들때까지 체크	
+	if (xAngle >= 20)
+	{
+		xCheck = true;
+	}
+
+	else if (xAngle <= -20)
+	{		
+		xCheck = false;			
+	}
+
+	if (xCheck == true)
+	{
+		xAngle -= 0.5f;
+	}
+
+	else if (xCheck == false)
+	{
+		xAngle += 0.5;
+	}
+
 	for (int i = 0; i < BMAX; i++)
 	{
 		if (Bbullet[i].show() == false)
-		{
-			Bbullet[i].active();
-			Bbullet[i].init(boss.x_pos, boss.y_pos);
+		{			
+				Bbullet[i].active();
+				Bbullet[i].init(boss.x_pos, boss.y_pos);
+				break;
 		}
 	}
 
@@ -679,26 +718,32 @@ void do_game_logic(void)
 	{
 		if (Bbullet[i].show() == true)
 		{
-			if (Bbullet[i].y_pos > 70)
+			if (Bbullet[i].y_pos > 1000)
+			{
 				Bbullet[i].hide();
+			
+			}
 			else
-				Bbullet[i].move();
+				Bbullet[i].move(xAngle);
 		}
 	}
+	
 
-
-	//총알 처리 
-	for (int i = 0; i < MAX;i++)
+	//총알 처리
+	if (KEY_DOWN(VK_SPACE))
 	{
-		if (bullet[i].show() == false)
+		for (int i = 0; i < MAX;i++)
 		{
-			if (KEY_DOWN(VK_SPACE))
+			if (bullet[i].show() == false)
 			{
+
 				bullet[i].active();
 				bullet[i].init(hero.x_pos, hero.y_pos);
-			}
-		}
+				break;
 
+			}
+
+		}
 	}
 
 	for (int i = 0;i < MAX;i++)
@@ -722,13 +767,13 @@ void do_game_logic(void)
 		}
 	}
 
-	/*for (int i = 0; i<ENEMY_NUM; i++)
+	for (int i = 0; i<ENEMY_NUM; i++)
 	{
 		if (hero.check_collision(enemy[i].x_pos, enemy[i].y_pos) == true)
 		{			
 			hero.hide();			
 		}
-	}*/
+	}
 
 	
 
@@ -809,17 +854,17 @@ void render_frame(void)
 	}
 
 	RECT part4;
-	SetRect(&part, 0, 0, 64, 64);
+	SetRect(&part4, 0, 0, 128, 128);
 	D3DXVECTOR3 center4(0.0f, 0.0f, 0.0f);    // center at the upper-left corner
 	D3DXVECTOR3 position4(boss.x_pos, boss.y_pos, 0.0f);    // position at 50, 50 with no depth
 	d3dspt->Draw(sprite_boss, &part4, &center4, &position4, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	RECT part5;
-	SetRect(&part, 0, 0, 64, 64);
+	SetRect(&part5, 0, 0, 64, 64);
 	D3DXVECTOR3 center5(0.0f, 0.0f, 0.0f);	// center at the upper-left corner
-	for (int i = 0; i < BMAX; i++)
+	for (int i = 0; i < BMAX; i++)  
 	{
-		if (Bbullet[i].boss_bShow == true)
+		if (Bbullet[i].BbShow == true)
 		{
 			D3DXVECTOR3 position5(Bbullet[i].x_pos, Bbullet[i].y_pos, 0.0f);    // position at 50, 50 with no depth
 			d3dspt->Draw(sprite_bossbullet, &part5, &center5, &position5, D3DCOLOR_ARGB(255, 255, 255, 255));
