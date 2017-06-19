@@ -6,8 +6,8 @@
 #include <iostream>
 
 // define the screen resolution and keyboard macros
-#define SCREEN_WIDTH  720
-#define SCREEN_HEIGHT 820
+#define SCREEN_WIDTH  1200
+#define SCREEN_HEIGHT 1600
 #define KEY_DOWN(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 1 : 0)
 #define KEY_UP(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 0 : 1)
 
@@ -86,20 +86,17 @@ bool sphere_collision_check(float x0, float y0, float size0, float x1, float y1,
 class Hero :public entity {
 
 public:
-	bool hShow;
-	bool hitShow;
+	bool hShow;	
 	
 	void fire();
 	void super_fire();
 	void move(int i);
 	bool show();
-	bool hit_show();
+	
 	void init(float x, float y);
 	void health(int h);
-	void hide();
-	void hithide();
-	void active();
-	void hitactive();
+	void hide();	
+	void active();	
 	bool check_collision(float x, float y);
 
 };
@@ -159,11 +156,6 @@ bool Hero::show()
 	return hShow;
 }
 
-bool Hero::hit_show()
-{
-	return hitShow;
-}
-
 void Hero::health(int h)
 {
 	h = --HP;
@@ -174,27 +166,19 @@ void Hero::hide()
 	hShow = false;
 }
 
-void Hero::hithide()
-{
-	hitShow = false;
-}
-
 void Hero::active()
 {
 	hShow = true;
 }
 
-void Hero::hitactive()
-{
-	hitShow = true;
-}
+
 
 // 적 보스 클래스
 class EnemyBoss :public entity {
 
 public:	
 	void init(float x, float y);
-	void move();
+	void move(float xMove);
 
 };
 
@@ -204,19 +188,9 @@ void EnemyBoss::init(float x, float y)
 	y_pos = y;
 }
 
-void EnemyBoss::move()
+void EnemyBoss::move(float xMove)
 {
-	for (int i = 0; i < MOVEMAX; i++)
-	{
-		if (i > 200)
-		{
-			x_pos += 2;
-		}
-		else if (i < -200)
-		{
-			x_pos -= 2;
-		}
-	}
+	x_pos = xMove;
 }
 
 // 적 클래스 
@@ -231,17 +205,49 @@ public:
 
 void Enemy::init(float x, float y)
 {
-
 	x_pos = x;
 	y_pos = y;
-
 }
 
 
 void Enemy::move()
 {
 	y_pos += 2;
+}
 
+// 히어로 피격 클래스
+class HeroHit :public entity {
+public:
+	bool hitShow;
+
+	void init(float x, float y);
+	void hithide();
+	bool hit_show();
+	void hitactive();
+	
+};
+
+void HeroHit::init(float x, float y)
+{
+
+	x_pos = x;
+	y_pos = y;
+
+}
+
+bool HeroHit::hit_show()
+{
+	return hitShow;
+}
+
+void HeroHit::hithide()
+{
+	hitShow = false;
+}
+
+void HeroHit::hitactive()
+{
+	hitShow = true;
 }
 
 // 보스 총알 클래스
@@ -249,7 +255,6 @@ class BossBullet :public entity {
 
 public:
 	bool BbShow;
-
 
 	void init(float x, float y);
 	void move(float xAngle);
@@ -261,16 +266,13 @@ public:
 
 bool BossBullet::check_collision(float x, float y)
 {
-
 	//충돌 처리 시 
 	if (sphere_collision_check(x_pos, y_pos, 32, x, y, 32) == true)
 	{
 		BbShow = false;
 		return true;
-
 	}
 	else {
-
 		return false;
 	}
 }
@@ -280,20 +282,17 @@ void BossBullet::init(float x, float y)
 {
 	x_pos = x;
 	y_pos = y;
-
 }
 
 bool BossBullet::show()
 {
 	return BbShow;
-
 }
 
 
 void BossBullet::active()
 {
 	BbShow = true;
-
 }
 
 
@@ -654,6 +653,11 @@ void init_game(void)
 float xAngle = 0.0f;
 bool xCheck = true;
 
+float xMove = 0.0f;
+bool xMoveCheck = true;
+
+bool BulletCheck = true;
+
 void do_game_logic(void)
 {
 	//주인공 처리 
@@ -668,9 +672,17 @@ void do_game_logic(void)
 
 	if (KEY_DOWN(VK_RIGHT))
 		hero.move(MOVE_RIGHT);
+	
+	boss.move(xMove);
+	if (xMove >= 600)
+		xMoveCheck = true;
+	else if (xMove <= 100)
+		xMoveCheck = false;
 
-	boss.move();
-
+	if (xMoveCheck == true)
+		xMove -= 5;
+	else if (xMoveCheck == false)
+		xMove += 5;
 
 	//적들 처리 
 	for (int j = 0; j < ENEMY_NUM; j++)
@@ -683,7 +695,7 @@ void do_game_logic(void)
 
 	
 	//보스 총알	
-	//40에서 -40까지 줄어들때까지 체크	
+	//2에서 -20까지 줄어들때까지 체크	
 	if (xAngle >= 20)
 	{
 		xCheck = true;
@@ -730,8 +742,10 @@ void do_game_logic(void)
 	
 
 	//총알 처리
+	
 	if (KEY_DOWN(VK_SPACE))
 	{
+		BulletCheck = true;
 		for (int i = 0; i < MAX;i++)
 		{
 			if (bullet[i].show() == false)
@@ -739,10 +753,11 @@ void do_game_logic(void)
 
 				bullet[i].active();
 				bullet[i].init(hero.x_pos, hero.y_pos);
+				BulletCheck = false;
 				break;
 
 			}
-
+			
 		}
 	}
 
