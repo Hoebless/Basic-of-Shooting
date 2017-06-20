@@ -5,6 +5,9 @@
 #include <d3dx9.h>
 #include <iostream>
 
+#include <mmsystem.h>
+#include <Digitalv.h>
+
 // define the screen resolution and keyboard macros
 #define SCREEN_WIDTH  1200
 #define SCREEN_HEIGHT 1600
@@ -36,6 +39,10 @@ LPDIRECT3DTEXTURE9 sprite_bullet;
 LPDIRECT3DTEXTURE9 sprite_hero_hit;
 LPDIRECT3DTEXTURE9 sprite_boss;
 LPDIRECT3DTEXTURE9 sprite_bossbullet;// the pointer to the sprite
+
+MCI_OPEN_PARMS mciopen;
+MCI_PLAY_PARMS mciplay;
+int dwID;
 
 
 
@@ -387,6 +394,7 @@ void Bullet::hide()
 
 //°´Ã¼ »ý¼º 
 Hero hero;
+HeroHit hero_hit;
 Enemy enemy[ENEMY_NUM];
 Bullet bullet[MAX];
 BossBullet Bbullet[BMAX];
@@ -430,6 +438,13 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	// enter the main loop:
 
 	MSG msg;
+
+	mciopen.lpstrElementName = L"Battle.mp3";
+	mciopen.lpstrDeviceType = L"MPEGVideo";
+	
+	mciSendCommand(dwID, MCI_OPEN, MCI_OPEN_TYPE | MCI_OPEN_ELEMENT, (DWORD)(LPVOID)&mciopen);
+	dwID = mciopen.wDeviceID;
+	mciSendCommand(1, MCI_PLAY, MCI_NOTIFY, (DWORD)(LPVOID)&mciplay);
 
 	while (TRUE)
 	{
@@ -859,7 +874,7 @@ void render_frame(void)
 
 	
 
-	if (hero.hitShow == true)
+	if (hero_hit.hitShow == true)
 	{
 		RECT part3;
 		SetRect(&part3, 0, 0, 64, 64);
