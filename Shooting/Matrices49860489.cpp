@@ -47,7 +47,20 @@ LPDIRECT3DTEXTURE9 sprite_bossbullet;
 LPDIRECT3DTEXTURE9 sprite_mScreen; 
 LPDIRECT3DTEXTURE9 sprite_gScreen; 
 LPDIRECT3DTEXTURE9 sprite_tScreen;
-LPDIRECT3DTEXTURE9 sprite_wScreen;// the pointer to the sprite
+LPDIRECT3DTEXTURE9 sprite_wScreen;
+LPDIRECT3DTEXTURE9 sprite_ScoreScreen;
+LPDIRECT3DTEXTURE9 sprite_Score0;
+LPDIRECT3DTEXTURE9 sprite_Score1;
+LPDIRECT3DTEXTURE9 sprite_Score2;
+LPDIRECT3DTEXTURE9 sprite_Score3;
+LPDIRECT3DTEXTURE9 sprite_Score4;
+LPDIRECT3DTEXTURE9 sprite_Score5;
+LPDIRECT3DTEXTURE9 sprite_Score6;
+LPDIRECT3DTEXTURE9 sprite_Score7;
+LPDIRECT3DTEXTURE9 sprite_Score8;
+LPDIRECT3DTEXTURE9 sprite_Score9;
+LPDIRECT3DTEXTURE9 sprite_Score_One; // the pointer to the sprite
+LPDIRECT3DTEXTURE9 sprite_Score_Ten;
 
 MCI_OPEN_PARMS mciopen;
 MCI_PLAY_PARMS mciplay;
@@ -366,7 +379,7 @@ public:
 bool BossBullet::check_collision1(float x, float y)
 {
 	//面倒 贸府 矫 
-	if (sphere_collision_check(x_pos, y_pos, 32, x, y, 32) == true)
+	if (sphere_collision_check(x_pos, y_pos, 8, x, y, 8) == true)
 	{
 		BbShow1 = false;
 		return true;
@@ -379,7 +392,7 @@ bool BossBullet::check_collision1(float x, float y)
 bool BossBullet::check_collision2(float x, float y)
 {
 	//面倒 贸府 矫 
-	if (sphere_collision_check(x_pos, y_pos, 32, x, y, 32) == true)
+	if (sphere_collision_check(x_pos, y_pos, 8, x, y, 8) == true)
 	{
 		BbShow2 = false;
 		return true;
@@ -392,7 +405,7 @@ bool BossBullet::check_collision2(float x, float y)
 bool BossBullet::check_collision3(float x, float y)
 {
 	//面倒 贸府 矫 
-	if (sphere_collision_check(x_pos, y_pos, 32, x, y, 32) == true)
+	if (sphere_collision_check(x_pos, y_pos, 8, x, y, 8) == true)
 	{
 		BbShow3 = false;
 		return true;
@@ -874,6 +887,171 @@ void initD3D(HWND hWnd)
 	D3DXCreateSprite(d3ddev, &d3dspt);    // create the Direct3D Sprite object
 
 	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"ScoreScreen.png",    // the file name
+		197,    // default width
+		80,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&sprite_ScoreScreen);    // load to sprite
+
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"Score_0.png",    // the file name
+		43,    // default width
+		80,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&sprite_Score0);    // load to sprite
+
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"Score_1.png",    // the file name
+		43,    // default width
+		80,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&sprite_Score1);    // load to sprite
+
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"Score_2.png",    // the file name
+		43,    // default width
+		80,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&sprite_Score2);    // load to sprite
+
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"Score_3.png",    // the file name
+		43,    // default width
+		80,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&sprite_Score3);    // load to sprite
+
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"Score_4.png",    // the file name
+		43,    // default width
+		80,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&sprite_Score4);    // load to sprite
+
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"Score_5.png",    // the file name
+		43,    // default width
+		80,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&sprite_Score5);    // load to sprite
+
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"Score_6.png",    // the file name
+		43,    // default width
+		80,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&sprite_Score6);    // load to sprite
+
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"Score_7.png",    // the file name
+		43,    // default width
+		80,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&sprite_Score7);    // load to sprite
+
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"Score_8.png",    // the file name
+		43,    // default width
+		80,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&sprite_Score8);    // load to sprite
+
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
+		L"Score_9.png",    // the file name
+		43,    // default width
+		80,    // default height
+		D3DX_DEFAULT,    // no mip mapping
+		NULL,    // regular usage
+		D3DFMT_A8R8G8B8,    // 32-bit pixels with alpha
+		D3DPOOL_MANAGED,    // typical memory handling
+		D3DX_DEFAULT,    // no filtering
+		D3DX_DEFAULT,    // no mip filtering
+		D3DCOLOR_XRGB(255, 0, 255),    // the hot-pink color key
+		NULL,    // no image info struct
+		NULL,    // not using 256 colors
+		&sprite_Score9);    // load to sprite
+
+	D3DXCreateTextureFromFileEx(d3ddev,    // the device pointer
 		L"wScreen.png",    // the file name
 		D3DX_DEFAULT,    // default width
 		D3DX_DEFAULT,    // default height
@@ -1043,10 +1221,6 @@ void initD3D(HWND hWnd)
 		NULL,    // not using 256 colors
 		&sprite_bossbullet);
 
-
-
-
-
 	return;
 }
 
@@ -1096,6 +1270,13 @@ void init_game(void)
 		enemy[28].init(100, 10 - 1500);
 		enemy[29].init(200, 10 - 1550);
 		enemy[30].init(250, 10 - 1500);
+
+		enemy[31].init(0, 10 - 1900);
+		enemy[32].init(50, 10 - 1850);
+		enemy[33].init(100, 10 - 1800);
+		enemy[34].init(200, 10 - 1850);
+		enemy[35].init(250, 10 - 1900);
+
 		//利甸 檬扁拳 
 		for (int j = 0; j < ENEMY_NUM; j++)
 		{
@@ -1143,12 +1324,90 @@ float Speed = 0.1f;
 float rad = Angle * D3DX_PI * 2;
 float Angle_rate = 0.02f;
 bool xyCheck = true;
+
+int ScoreCount = 0;
 //float Speed_rate = 0.01f;
 
 void do_game_logic(void)
 {
 	if (mScreen)
 	{
+		if (ScoreCount % 10 == 0)
+		{
+			sprite_Score_One = sprite_Score0;
+		}
+		if (ScoreCount % 10 == 1)
+		{
+			sprite_Score_One = sprite_Score1;
+		}
+		if (ScoreCount % 10 == 2)
+		{
+			sprite_Score_One = sprite_Score2;
+		}
+		if (ScoreCount % 10 == 3)
+		{
+			sprite_Score_One = sprite_Score3;
+		}
+		if (ScoreCount % 10 == 4)
+		{
+			sprite_Score_One = sprite_Score4;
+		}
+		if (ScoreCount % 10 == 5)
+		{
+			sprite_Score_One = sprite_Score5;
+		}
+		if (ScoreCount % 10 == 6)
+		{
+			sprite_Score_One = sprite_Score6;
+		}
+		if (ScoreCount % 10 == 7)
+		{
+			sprite_Score_One = sprite_Score7;
+		}
+		if (ScoreCount % 10 == 8)
+		{
+			sprite_Score_One = sprite_Score8;
+		}
+		if (ScoreCount % 10 == 9)
+		{
+			sprite_Score_One = sprite_Score9;
+		}
+
+		if (ScoreCount / 10 == 0)
+		{
+			sprite_Score_Ten = sprite_Score0;
+		}
+
+		if (ScoreCount / 10 == 1)
+		{
+			sprite_Score_Ten = sprite_Score1;
+		}
+
+		if (ScoreCount / 10 == 2)
+		{
+			sprite_Score_Ten = sprite_Score2;
+		}
+
+		if (ScoreCount / 10 == 3)
+		{
+			sprite_Score_Ten = sprite_Score3;
+		}
+
+		if (ScoreCount / 10 == 4)
+		{
+			sprite_Score_Ten = sprite_Score4;
+		}
+
+		if (ScoreCount / 10 == 5)
+		{
+			sprite_Score_Ten = sprite_Score5;
+		}
+
+		if (ScoreCount / 10 == 6)
+		{
+			sprite_Score_Ten = sprite_Score6;
+		}
+
 		//林牢傍 贸府 
 		if (KEY_DOWN(VK_UP))
 			hero.move(MOVE_UP);
@@ -1206,12 +1465,12 @@ void do_game_logic(void)
 
 		if (xCheck == true)
 		{
-			xAngle -= 1.8f;
+			xAngle -= 3.3f;
 		}
 
 		else if (xCheck == false)
 		{
-			xAngle += 1.8;
+			xAngle += 3.3;
 		}
 		
 		//Move2
@@ -1227,12 +1486,12 @@ void do_game_logic(void)
 
 		if (xCheck2 == true)
 		{
-			xAngle2 -= 1.8f;
+			xAngle2 -= 5.8f;
 		}
 
 		else if (xCheck2 == false)
 		{
-			xAngle2 += 1.8;
+			xAngle2 += 5.8;
 		}
 
 		//Move3
@@ -1248,12 +1507,12 @@ void do_game_logic(void)
 
 		if (xCheck3 == true)
 		{
-			xAngle3 -= 1.8f;
+			xAngle3 -= 7.5f;
 		}
 
 		else if (xCheck3 == false)
 		{
-			xAngle3 += 1.8;
+			xAngle3 += 7.5f;
 		}
 
 		//Boss 眉农
@@ -1426,6 +1685,7 @@ void do_game_logic(void)
 			{
 				if (bullet[i].check_collision(enemy[j].x_pos, enemy[j].y_pos) == true)
 				{
+					ScoreCount++;
 					bullet[i].hide();
 					bullet[i].init(18000, 18000);
 					enemy[j].hide();
@@ -1711,6 +1971,24 @@ void render_frame(void)
 				d3dspt->Draw(sprite_bossbullet, &part9, &center9, &position9, D3DCOLOR_ARGB(255, 255, 255, 255));
 			}
 		}
+		
+		RECT part110;
+		SetRect(&part110, 0, 0, 43, 80);
+		D3DXVECTOR3 center110(0.0f, 0.0f, 0.0f);    // center at the upper-left corner
+		D3DXVECTOR3 position110(247.0f, 0.0f, 0.0f);    // position at 50, 50 with no depth
+		d3dspt->Draw(sprite_Score_One, &part110, &center110, &position110, D3DCOLOR_ARGB(255, 255, 255, 255));
+
+		RECT part111;
+		SetRect(&part111, 0, 0, 43, 80);
+		D3DXVECTOR3 center111(0.0f, 0.0f, 0.0f);    // center at the upper-left corner
+		D3DXVECTOR3 position111(217.0f, 0.0f, 0.0f);    // position at 50, 50 with no depth
+		d3dspt->Draw(sprite_Score_Ten, &part111, &center111, &position111, D3DCOLOR_ARGB(255, 255, 255, 255));
+
+		RECT part112;
+		SetRect(&part112, 0, 0,197,80);
+		D3DXVECTOR3 center112(0.0f, 0.0f, 0.0f);    // center at the upper-left corner
+		D3DXVECTOR3 position112(0.0f, 0.0f, 0.0f);    // position at 50, 50 with no depth
+		d3dspt->Draw(sprite_ScoreScreen, &part112, &center112, &position112, D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	}
 

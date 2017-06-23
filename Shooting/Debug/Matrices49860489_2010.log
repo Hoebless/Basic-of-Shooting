@@ -1,16 +1,16 @@
 ﻿  Matrices49860489.cpp
-c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(719): warning C4100: 'lpCmdLine': 참조되지 않은 정식 매개 변수입니다.
-c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(718): warning C4100: 'hPrevInstance': 참조되지 않은 정식 매개 변수입니다.
-c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(817): warning C4101: 'hdc' :참조되지 않은 지역 변수입니다.
-c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(1446): warning C4456: 'i' 선언은 이전 로컬 선언을 숨깁니다.
-  c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(1444): note: 'i' 선언을 참조하십시오.
-c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(1503): warning C4456: 'i' 선언은 이전 로컬 선언을 숨깁니다.
-  c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(1490): note: 'i' 선언을 참조하십시오.
-c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(826): warning C4706: 조건식 내에 할당이 있습니다.
-c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(1452): warning C4706: 조건식 내에 할당이 있습니다.
-c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(1465): warning C4706: 조건식 내에 할당이 있습니다.
-c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(1478): warning C4706: 조건식 내에 할당이 있습니다.
-c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(1512): warning C4706: 조건식 내에 할당이 있습니다.
-c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(1533): warning C4706: 조건식 내에 할당이 있습니다.
+c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(732): warning C4100: 'lpCmdLine': 참조되지 않은 정식 매개 변수입니다.
+c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(731): warning C4100: 'hPrevInstance': 참조되지 않은 정식 매개 변수입니다.
+c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(830): warning C4101: 'hdc' :참조되지 않은 지역 변수입니다.
+c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(1706): warning C4456: 'i' 선언은 이전 로컬 선언을 숨깁니다.
+  c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(1704): note: 'i' 선언을 참조하십시오.
+c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(1763): warning C4456: 'i' 선언은 이전 로컬 선언을 숨깁니다.
+  c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(1750): note: 'i' 선언을 참조하십시오.
+c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(839): warning C4706: 조건식 내에 할당이 있습니다.
+c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(1712): warning C4706: 조건식 내에 할당이 있습니다.
+c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(1725): warning C4706: 조건식 내에 할당이 있습니다.
+c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(1738): warning C4706: 조건식 내에 할당이 있습니다.
+c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(1772): warning C4706: 조건식 내에 할당이 있습니다.
+c:\users\kiminhoe\desktop\project\directx project\matrices49860489.cpp(1793): warning C4706: 조건식 내에 할당이 있습니다.
   Matrices49860489_2010.vcxproj -> C:\Users\Kiminhoe\Desktop\Project\DirectX Project\Debug\Matrices49860489.exe
   Matrices49860489_2010.vcxproj -> C:\Users\Kiminhoe\Desktop\Project\DirectX Project\Debug\Matrices49860489.pdb (Full PDB)
